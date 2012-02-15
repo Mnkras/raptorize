@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<schema version="0.3">
+	<table name="btRaptor">
+		<field name="bID" type="I">
+			<key />
+			<unsigned />
+		</field>		
+		<field name="entrance" type="C" size="255">
+			<default value="konami-code" />
+		</field>
+		<field name="time" type="I">
+			<default value="5000" />
+		</field>		
+		<field name="buttontext" type="C" size="255">
+			<default value="Rawr!!" />
+		</field>		
+	</table>
+</schema>
