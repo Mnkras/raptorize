@@ -3,6 +3,9 @@
 	defined('C5_EXECUTE') or die("Access Denied.");
 
 	use \Concrete\Core\Block\BlockController;
+	use Page;
+	use Loader;
+	use BlockType;
 
 	class Controller extends BlockController {
 
@@ -24,6 +27,52 @@
 			$args['buttontext'] = ($args['buttontext'] != '') ? $args['buttontext'] : 'Rawr!!'; //Rawr!
 			parent::save($args);
 		}
-	}
 
-?>
+		public function view() {
+			$b = $this->getBlockObject();
+			$btID = $b->getBlockTypeID();
+			$bt = BlockType::getByID($btID);
+			$c = Page::getCurrentPage();
+			$url = Loader::helper('concrete/urls');
+
+			if(!$c->isEditmode()) {//if it isn't editmode add the javascript
+				ob_start();
+				?>
+				<script type="text/javascript">
+						$(window).load(function() {
+						<?php    if($this->entrance == 'click') { //if the entrance is click we have to hook it up to the button
+							echo '	$(\'#raptorize-' . $this->bID . '\').raptorize({';
+						} else {
+							echo '	$(\'body\').raptorize({';//if not then we use the body tag
+						} ?>
+
+								enterOn : "<?php echo $this->entrance ?>",
+								<?php if($this->entrance == 'timer') {//only if the entrance is time then we add that option ?>
+
+								delayTime : "<?php echo $this->time ?>",
+								<?php    } ?>
+
+								img : "<?php    echo $url->getBlockTypeAssetsURL($bt);?>/raptor.png",<?php    //paths to all the files ?>
+
+								mp3 : "<?php    echo $url->getBlockTypeAssetsURL($bt);?>/raptor-sound.mp3",
+								ogg : "<?php    echo $url->getBlockTypeAssetsURL($bt);?>/raptor-sound.ogg"
+							});
+
+						});
+				</script>
+				<?php
+				$buff = ob_get_contents();
+				$this->addFooterItem($buff);
+				ob_end_clean();
+			}
+
+		}
+
+		public function showBlockView() {
+			if($this->entrance == 'click') {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
