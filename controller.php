@@ -16,7 +16,7 @@ use Concrete\Core\Block\BlockType\BlockType;
 class Controller extends \Concrete\Core\Package\Package {
 
 	protected $pkgHandle = 'raptorize';
-	protected $appVersionRequired = '5.7.0.1';
+	protected $appVersionRequired = '5.7.0.4';
 	protected $pkgVersion = '2.0';
 
 	public function getPackageDescription() {

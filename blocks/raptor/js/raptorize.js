@@ -15,28 +15,28 @@
     $.fn.raptorize = function(options) {
 
         //Yo' defaults
-        var defaults = {  
+        var defaults = {
             enterOn: 'click', //timer, konami-code, click
             delayTime: 5000, //time before raptor attacks on timer mode
             img: 'raptor.png', //what image to use
             mp3: 'raptor-sound.mp3', //path to the mp3
             ogg: 'raptor-sound.ogg' //path to the ogg
-            };  
-        
+            };
+
         //Extend those options
-        var options = $.extend(defaults, options); 
-	
+        var options = $.extend(defaults, options);
+
         return this.each(function() {
 
 			var _this = $(this);
 			var audioSupported = false;
 			var audioSupported = !!(document.createElement('audio').canPlayType);
-			
+
 			//Raptor Vars
 			var raptorImageMarkup = '<img id="elRaptor" style="display: none" src="' + options.img + '" />'
-			var raptorAudioMarkup = '<audio id="elRaptorShriek" preload="auto"><source src="' + options.mp3 + '" /><source src="' + options.ogg + '" /></audio>';	
+			var raptorAudioMarkup = '<audio id="elRaptorShriek" preload="auto"><source src="' + options.mp3 + '" /><source src="' + options.ogg + '" /></audio>';
 			var locked = false;
-			
+
 			//Append Raptor and Style
 			$('body').append(raptorImageMarkup);
  			if(audioSupported) { $('body').append(raptorAudioMarkup); }
@@ -46,23 +46,23 @@
 				"right" : "0",
 				"display" : "block"
 			})
-			
+
 			// Animating Code
 			function init() {
 				locked = true;
-			
+
 				//Sound Hilarity
-				if(audioSupported) { 
+				if(audioSupported) {
 					function playSound() {
 						document.getElementById('elRaptorShriek').play();
 					}
 					playSound();
 				}
-								
-				// Movement Hilarity	
+
+				// Movement Hilarity
 				raptor.animate({
 					"bottom" : "0"
-				}, function() { 			
+				}, function() {
 					$(this).animate({
 						"bottom" : "-130px"
 					}, 100, function() {
@@ -79,8 +79,8 @@
 					});
 				});
 			}
-			
-			
+
+
 			//Determine Entrance
 			if(options.enterOn == 'timer') {
 				setTimeout(init, options.delayTime);
@@ -99,10 +99,10 @@
 			        	init();
 			        	$(window).unbind('keydown.raptorz');
 			        }
-			    }, true);
-	
+			    });
+
 			}
-			
+
         });//each call
     }//orbit plugin call
 })(jQuery);
